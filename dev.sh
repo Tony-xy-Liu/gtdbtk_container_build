@@ -13,17 +13,15 @@ case $1 in
         sudo docker build -t $DOCKER_IMAGE .
     ;;
     --run|-r)
-        # test run docker image
-            # -e XDG_CACHE_HOME="/ws"\
-            # --mount type=bind,source="$HERE/scratch/res",target="/ref"\
-            # --mount type=bind,source="$HERE/scratch/res/.ncbi",target="/.ncbi" \
-            # --mount type=bind,source="$HERE/docker/load/",target="/app" \
-            # --workdir="/ws" \
-            # -u $(id -u):$(id -g) \
         docker run -it --rm \
             --mount type=bind,source="$HERE/data/release207_v2",target="/ref" \
             $DOCKER_IMAGE \
             /bin/bash
+    ;;
+    --push|-p)
+        # login and push image to quay.io, remember to change the python constants in src/
+        # sudo docker login quay.io
+	    sudo docker push $DOCKER_IMAGE
     ;;
     --sif)
         # test build singularity
